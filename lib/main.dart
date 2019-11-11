@@ -42,9 +42,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
 
-    _getCounter().then((value) => {
-      
-      _counter=value
+    _getCounter().then((value) {
+      setState(() {
+        _counter = value;
+      });
     });
   }
 
@@ -60,7 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 RaisedButton(
                     child: Text("Increase the counter"),
-                    onPressed: () => {increamentCounter()}),
+                    onPressed: () {
+                      print('increase');
+                      increamentCounter();
+                    }),
                 Text('Counter $_counter '),
               ],
             ),
@@ -68,7 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void increamentCounter() async {
+//we can skip Future<void>
+  Future<void> increamentCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int counter = (prefs.getInt('counter') ?? 0) + 1;
     _counter = counter; //update global variable
